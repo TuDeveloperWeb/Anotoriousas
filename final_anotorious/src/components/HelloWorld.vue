@@ -1,19 +1,17 @@
 <template>
   <div>
-   <div>
-     <button class="show" @click="showModalT">Show Modal</button>
-   </div>
 
-    <div class="modalT" :class="{ 'show-modalT': isModalVisible }">
-      
-      <div id="osd-container" class="flex box">
-        <div id="openseadragon1"></div>
-      </div>
+      <b-button class="btn btn-success" @click="showModal">Abrir Modal</b-button>
 
+      <b-modal v-model="showModalState" title="Mi Modal" size="lg">
+      <!-- Contenido del modal aquí -->
+        <div id="osd-container" class="flex box">
+          <div id="openseadragon1">
+          </div>
+        </div>
 
+       </b-modal>
 
-      <button @click="closeModalT">Close Me</button>
-    </div>
   </div>
 </template>
 
@@ -28,20 +26,16 @@ export default {
     return {
       isModalVisible: false,
       anno: null,
+      showModalState: false,
     };
   },
+
+  mounted() {
+
+  
+  },
+
   methods: {
-    showModalT() {
-      console.log("Maria te espera");
-      this.isModalVisible = true;
-
-      this.initializeOpenSeadragon();
-
-    },
-    closeModalT() {
-      this.isModalVisible = false;
-    },
-
     initializeOpenSeadragon() {
       var viewer = OpenSeadragon({
         id: "openseadragon1",
@@ -60,59 +54,23 @@ export default {
       this.anno = Annotorious(viewer, options);
     },
 
+    showModal() {
+      this.showModalState = true;
+
+      setTimeout(() => {
+      this.initializeOpenSeadragon();
+    }, 10);
+      
+    },
+    hideModal() {
+      this.showModalState = false;
+    },
+
   },
 };
 </script>
 
 <style scoped>
-
-
-button.show {
-  padding: 15px 20px;
-  border: 0;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 20px;
-  z-index: 1;
-  background: cornflowerblue;
-}
-
-.modalT {
-  /* width: 500px; */
-  text-align: center;
-  background: cornflowerblue;
-  padding: 20px;
-  color: white;
-  border-radius: 10px;
-  position: absolute;
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%, -55%); */
-  opacity: 0;
-  transition: opacity ease-out 0.4s;
-}
-
-.show-modalT {
-  opacity: 1;
-  transition: opacity ease-in 0.4s;
-  z-index: 2;
-}
-
-.modalT p {
-  margin: 15px;
-  padding: 20px;
-}
-
-.modalT button {
-  border-radius: 5px;
-  border: none;
-  outline: none;
-  padding: 10px 15px;
-  background: white;
-  cursor: pointer;
-}
-
 
 .flex {
   display: flex;
@@ -160,6 +118,5 @@ button.show {
   border-radius:3px;
   font-size:14px;
 }
-
 
 </style>
